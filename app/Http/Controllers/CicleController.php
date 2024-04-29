@@ -14,6 +14,8 @@ class CicleController extends Controller
     public function index()
     {
         //
+        $cicles = Cicle::all();
+        return view('cicle', compact('cicles'));
     }
 
     /**

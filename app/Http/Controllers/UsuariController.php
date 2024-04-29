@@ -13,6 +13,8 @@ class UsuariController extends Controller
     public function index()
     {
         //
+        $usuaris = Usuari::with('tipus')->paginate(10);
+        return view('usuari', compact('usuaris'));
     }
 
     /**

@@ -12,7 +12,8 @@ class ModulController extends Controller
      */
     public function index()
     {
-        //
+        $moduls = Modul::with('cicle')->paginate(10);
+        return view('modul', compact('moduls'));
     }
 
     /**

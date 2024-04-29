@@ -1,6 +1,11 @@
 <?php
 
+use App\Models\TipusUsuari;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CicleController;
+use App\Http\Controllers\ModulController;
+use App\Http\Controllers\UsuariController;
+use App\Http\Controllers\TipusUsuariControlller;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,3 +25,8 @@ Route::get('/', function () {
 Route::get('/index', function () {
     return view('index');
 });
+
+Route::resource('cicles', CicleController::class);
+Route::resource('tipusUsuari', TipusUsuariControlller::class);
+Route::resource('usuari', UsuariController::class);
+Route::resource('modul', ModulController::class);

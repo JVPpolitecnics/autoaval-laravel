@@ -13,6 +13,8 @@ class TipusUsuariControlller extends Controller
     public function index()
     {
         //
+        $tipusUsuari = TipusUsuari::all();
+        return view('tipusUsuari', compact('tipusUsuari'));
     }
 
     /**

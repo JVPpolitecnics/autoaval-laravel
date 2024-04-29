@@ -19,12 +19,14 @@ use App\Http\Controllers\TipusUsuariControlller;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 Route::get('/index', function () {
-    return view('index');
+    return view('auth.login');
 });
+
+Route::post('auth', [App\Http\Controllers\UsuariController::class, 'authenticate']);
 
 Route::resource('cicles', CicleController::class);
 Route::resource('tipusUsuari', TipusUsuariControlller::class);

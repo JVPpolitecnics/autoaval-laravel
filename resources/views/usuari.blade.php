@@ -1,7 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
-   
+@vite(['resources/css/app.scss', 'resources/js/app.js'])  
     <h1>Visualitzar Usuaris</h1>
 
 

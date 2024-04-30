@@ -91,7 +91,12 @@
                 </svg>
             </div>
             <div class="row-6">
-                <p>User name</p>
+                @if (Auth::check())
+                <p>{{ Auth::user()->nom }}</p>
+                <!-- Access other user data as needed -->
+            @else
+                <p>Guest</p>
+            @endif
             </div>
         </div>
 

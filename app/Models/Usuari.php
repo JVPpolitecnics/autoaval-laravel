@@ -2,12 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
-class Usuari extends Model
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+class Usuari extends Authenticable
 {
-    use HasFactory;
+    use HasFactory,  HasApiTokens, Notifiable;
     protected $table = 'usuaris';
     public $timestamps = false;
     protected $primaryKey = 'id';
@@ -20,5 +24,9 @@ class Usuari extends Model
     }
     function has_criteris(){
         return $this->belongsToMany(CriterisAvaluacio::class, 'alumnes_has_criteris_avaluacio', 'usuaris_id', 'criteris_avaluacio_id');
+    }
+    public function getAuthIdentifierName()
+    {
+        return 'id'; // Assuming 'id' is the name of your primary key column
     }
 }

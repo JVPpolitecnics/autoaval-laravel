@@ -6,26 +6,29 @@ use App\Models\Usuari;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Contracts\Auth\Authenticatable;
 
-class UsuariController extends Controller
+class UsuariController extends Controller 
 {
 
         //Authenthicate
         public function authenticate(Request $request){
             $username = $request->input("nom_usuari");
             $contrasenya = $request->input("contrasenya");
+        
             $user = Usuari::where('nom_usuari', $username)->first();
             if ($user != null && Hash::check($contrasenya, $user->contrasenya)) {
             Auth::login($user);
             
-                $response = redirect('/rider/home');
+                $response = redirect('/usuari');
            
                 return $response;
            
         }else{
         $request->session()->flash('error',
         'Usuari o contrasenya incorrectes');
-        return redirect('/usuario/create')->withInput();
+        error_log('pasta');
+        return redirect('/usuari/create')->withInput();
     
     
     }

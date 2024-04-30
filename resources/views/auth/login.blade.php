@@ -26,13 +26,13 @@
                     <div class="card-body">
                         <div class="form-group row px-2">
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="username" name="user_name"
+                                <input type="text" class="form-control" id="nom_usuari" name="nom_usuari"
                                     value="{{ old('username') }}" placeholder="Nombre de Usuario">
                             </div>
                         </div>
                         <div class="form-group row mt-3 px-2">
                             <div class="col-sm-10">
-                                <input type="password" class="form-control" id="password" name="pswd"
+                                <input type="password" class="form-control" id="contrasenya" name="contrasenya"
                                     value="{{ old('password') }}" placeholder="Contraseña">
                                 <iconify-icon class="eye-active" icon="mdi:eye" height="24"></iconify-icon>
                                 <iconify-icon class="eye-unactive" icon="ph:eye-closed" height="24"></iconify-icon>

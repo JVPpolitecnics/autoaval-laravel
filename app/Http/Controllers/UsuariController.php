@@ -96,6 +96,11 @@ class UsuariController extends Controller
         //
     }
 
+    
+    public function updateAlumneCriteri(Request $request, Usuari $usuari)
+    {
+        //
+    }
     /**
      * Remove the specified resource from storage.
      */

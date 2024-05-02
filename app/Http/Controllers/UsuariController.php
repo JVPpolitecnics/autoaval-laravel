@@ -8,31 +8,34 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Contracts\Auth\Authenticatable;
 
-class UsuariController extends Controller 
+class UsuariController extends Controller
 {
 
-        //Authenthicate
-        public function authenticate(Request $request){
-            $username = $request->input("nom_usuari");
-            $contrasenya = $request->input("contrasenya");
-        
-            $user = Usuari::where('nom_usuari', $username)->first();
-            if ($user != null && Hash::check($contrasenya, $user->contrasenya)) {
+    //Authenthicate
+    public function authenticate(Request $request)
+    {
+        $username = $request->input("nom_usuari");
+        $contrasenya = $request->input("contrasenya");
+
+        $user = Usuari::where('nom_usuari', $username)->first();
+        if ($user != null && Hash::check($contrasenya, $user->contrasenya)) {
             Auth::login($user);
-            
-                $response = redirect('/usuari');
-           
-                return $response;
-           
-        }else{
-        $request->session()->flash('error',
-        'Usuari o contrasenya incorrectes');
-        error_log('pasta');
-        return redirect('/usuari/create')->withInput();
-    
-    
+
+            $response = redirect('/usuari');
+
+            return $response;
+
+        } else {
+            $request->session()->flash(
+                'error',
+                'Usuari o contrasenya incorrectes'
+            );
+            error_log('pasta');
+            return redirect('/usuari/create')->withInput();
+
+
+        }
     }
-}
     /**
      * Display a listing of the resource.
      */
@@ -59,14 +62,14 @@ class UsuariController extends Controller
     {
         //
         $usuari = new Usuari();
-        $usuari->nom_usuari=$request->nom_usuari;
-        $pwd =bcrypt($request->contrasenya);
-        $usuari->contrasenya=$pwd;
-        $usuari->correu=$request->correu;
-        $usuari->nom=$request->nom;
-        $usuari->cognom=$request->cognom;
-        $usuari->actiu=1;
-        $usuari->tipus_usuaris_id=$request->tipus_usuaris_id;
+        $usuari->nom_usuari = $request->nom_usuari;
+        $pwd = bcrypt($request->contrasenya);
+        $usuari->contrasenya = $pwd;
+        $usuari->correu = $request->correu;
+        $usuari->nom = $request->nom;
+        $usuari->cognom = $request->cognom;
+        $usuari->actiu = 1;
+        $usuari->tipus_usuaris_id = $request->tipus_usuaris_id;
 
 
         $usuari->save();
@@ -77,7 +80,7 @@ class UsuariController extends Controller
      */
     public function show(Usuari $usuari)
     {
-        
+
     }
 
     /**
@@ -96,11 +99,8 @@ class UsuariController extends Controller
         //
     }
 
-    
-    public function updateAlumneCriteri(Request $request, Usuari $usuari)
-    {
-        //
-    }
+
+   
     /**
      * Remove the specified resource from storage.
      */

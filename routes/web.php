@@ -25,6 +25,9 @@ Route::get('/', function () {
 Route::get('/index', function () {
     return view('auth.login');
 });
+Route::get('/alumnesCriteris', function () {
+    return view('alumnesCriteris');
+});
 
 Route::post('auth', [App\Http\Controllers\UsuariController::class, 'authenticate']);
 

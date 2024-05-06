@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\CriteriAvaluacioController;
+use App\Http\Controllers\Api\LoggedInUserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,6 +18,17 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+    
 });
-Route::get('criteri/alumnesAndCriteris', [CriteriAvaluacioController::class, 'showAlumnesWithCriteris']);
-Route::apiResource('criteri', CriteriAvaluacioController::class);
+
+Route::middleware(['web', 'auth'])->group(function () {
+
+    Route::get('user/LogedIn', [LoggedInUserController::class, 'getLoggedUser']);
+    
+    });
+    Route::get('criteri/alumnesAndCriteris', [CriteriAvaluacioController::class, 'showAlumnesWithCriteris']);
+    Route::get('criteri/loggedAlumneAndCriter/alumneId/{idAlumne}', [CriteriAvaluacioController::class, 'showLoggedUserWithCriteris']);
+    
+    Route::put('criteri/updateAlumnesCriteris/user/{idUsuari}/criteri/{criteriId}', [CriteriAvaluacioController::class, 'updateAlumneCriteri']);
+    Route::apiResource('criteri', CriteriAvaluacioController::class);
+    

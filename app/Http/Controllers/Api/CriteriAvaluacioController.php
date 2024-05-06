@@ -49,15 +49,19 @@ class CriteriAvaluacioController extends Controller
 
         return $response;
     }
-    public function updateAlumneCriteri(Request $request, $idUsuari)
+    public function updateAlumneCriteri(Request $request, $idUsuari, $criteriId)
     {
-        //
         try {
             $usuari = Usuari::findOrFail($idUsuari);
-            $usuari->has_criteris()->attach($idUsuari, ['criteri' => $request->criteri]);
-            $response = response()->json(['message' => 'Success adding criteria']);
+    
+            
+            $nota = $request->input('nota');
+    
+            $usuari->has_criteris()->sync([$criteriId => ['nota' => $nota]], false);
+    
+            $response = response()->json(['message' => 'Success updating criteria']);
         } catch (\Throwable $th) {
-            $response = response()->json(['error' => 'Error adding an evaluation criteria'], 500);
+            $response = response()->json(['error' => 'Error updating evaluation criteria'], 500);
         }
         return $response;
     }
@@ -75,6 +79,23 @@ class CriteriAvaluacioController extends Controller
     }
     return $response;
     }
+
+    public function showLoggedUserWithCriteris($loggedInUserId)
+{
+    try {
+        $usuari = Usuari::where('tipus_usuaris_id', 3)
+            ->where('id', $loggedInUserId) // Filter by the ID of the logged-in user
+            ->with('has_criteris')
+            ->get(); 
+
+        $response = UsuariResource::collection($usuari);
+    } catch (\Throwable $th) {
+        $response = response()->json(['error' => 'Error showing criteria and students: ' . $th->getMessage()], 500);
+    }
+    
+    return $response[0];
+}
+
     /**
      * Display the specified resource.
      */

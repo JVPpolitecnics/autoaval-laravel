@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\CriteriAvaluacioController;
 use App\Http\Controllers\Api\LoggedInUserController;
+use App\Http\Controllers\Api\ModulControllerApi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -31,4 +32,5 @@ Route::middleware(['web', 'auth'])->group(function () {
     
     Route::put('criteri/updateAlumnesCriteris/user/{idUsuari}/criteri/{criteriId}', [CriteriAvaluacioController::class, 'updateAlumneCriteri']);
     Route::apiResource('criteri', CriteriAvaluacioController::class);
+    Route::apiResource('modul', ModulControllerApi::class);
     

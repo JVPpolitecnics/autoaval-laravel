@@ -28,6 +28,9 @@ Route::get('/index', function () {
 Route::get('/alumnesCriteris', function () {
     return view('alumnesCriteris');
 });
+Route::get('/modulVue', function () {
+    return view('modulVue');
+});
 
 Route::post('auth', [App\Http\Controllers\UsuariController::class, 'authenticate']);
 

@@ -33,9 +33,12 @@
         <div class="btn-group" role="group" aria-label="Basic mixed styles example">
           <div v-if="criteri.has_many_rubrica" v-for="(rubrica, index) in criteri.has_many_rubrica">
             <div v-on:mouseover="updateNotaVisually(index + 1)">
-              <button type="button" @click="updateNotaApi(index + 1)" :class="classButtonNota(index + 1)">{{
+              <button type="button" @click="updateNotaApi(index + 1)" :class="classButtonNota(index + 1)" data-bs-toggle="tooltip" data-bs-placement="bottom">{{
                 index + 1 }}</button>
+                <p>{{ rubrica.descripcio }}</p>
+
             </div>
+      
           </div>
 
         </div>

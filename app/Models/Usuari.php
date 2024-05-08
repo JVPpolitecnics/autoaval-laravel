@@ -20,7 +20,7 @@ class Usuari extends Authenticable
         return $this->belongsTo(TipusUsuari::class, 'tipus_usuaris_id');
     }
     function has_modules(){
-        return $this->belongsToMany(Modul::class, 'usuaris_has_moduls', 'usuaris_id', 'moduls_id');
+        return $this->belongsToMany(Modul::class, 'usuaris_has_moduls', 'usuaris_id', 'moduls_id')->withPivot('actiu');
     }
     function has_criteris(){
         return $this->belongsToMany(CriterisAvaluacio::class, 'alumnes_has_criteris_avaluacio', 'usuaris_id', 'criteris_avaluacio_id')->withPivot('nota');

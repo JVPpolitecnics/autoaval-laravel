@@ -70,6 +70,7 @@ class CriteriAvaluacioController extends Controller
     {
         try{
             $usuari = Usuari::where('tipus_usuaris_id', 3)
+            
             ->with('has_criteris')
             ->get(); 
         $response = UsuariResource::collection($usuari);

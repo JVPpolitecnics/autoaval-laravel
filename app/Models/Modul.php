@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\ResultatsAprenentatge;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Modul extends Model
 {
@@ -16,5 +18,9 @@ class Modul extends Model
     }
     function cicle(){
         return $this->belongsTo(Cicle::class, 'cicles_id');
+    }
+    public function resultat_aprenentatge(): HasMany
+    {
+        return $this->hasMany(ResultatsAprenentatge::class, 'moduls_id');
     }
 }

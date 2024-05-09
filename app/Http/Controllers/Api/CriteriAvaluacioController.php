@@ -86,12 +86,12 @@ class CriteriAvaluacioController extends Controller
     try {
         $usuari = Usuari::where('tipus_usuaris_id', 3)
             ->where('id', $loggedInUserId) // Filter by the ID of the logged-in user
-            ->with('has_criteris.has_many_rubrica')
-            ->get(); 
+            ->with('has_modules.resultat_aprenentatge.criteris_avaluacio.has_many_rubrica')
+            ->firstOrFail();; 
 
         $response = UsuariResource::collection($usuari);
     } catch (\Throwable $th) {
-        $response = response()->json(['error' => 'Error showing criteria and students: ' . $th->getMessage()], 500);
+        $response = response()->json(['Error showing criteria and students: ' . $th->getMessage()], 500);
     }
     
     return $response[0];

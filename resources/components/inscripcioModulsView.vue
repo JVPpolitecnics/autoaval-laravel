@@ -44,7 +44,7 @@ export default {
             alumnesAndModuls: null,
             showMessage: null,
             text: null,
-            user
+            user: null,
         }
     },
 
@@ -80,10 +80,10 @@ export default {
 
         deleteModul(id) {
             const requestBody = {
-                usuaris_id: mark
+                modul
             };
 
-            axios.put('api/modul/updateAlumneModuls/alumneId/{id}', requestBody)
+            axios.put('api/modul/updateAlumneModuls/alumneId/'+id, requestBody)
                 .then(response => {
                     console.log(response.data.message); // Log success message
                     // Handle success response

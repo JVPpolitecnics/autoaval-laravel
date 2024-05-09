@@ -86,8 +86,8 @@ class CriteriAvaluacioController extends Controller
     try {
         $usuari = Usuari::where('tipus_usuaris_id', 3)
             ->where('id', $loggedInUserId) // Filter by the ID of the logged-in user
-            ->with('has_modules.resultat_aprenentatge.criteris_avaluacio.has_many_rubrica')
-            ->firstOrFail();; 
+            ->with(['has_modules.resultat_aprenentatge.criteris_avaluacio.has_many_rubrica','has_criteris'])
+            ->get();
 
         $response = UsuariResource::collection($usuari);
     } catch (\Throwable $th) {

@@ -41,7 +41,7 @@ class ModulControllerApi extends Controller
         ]);
 
         // Sync user's modules
-        $user->has_modules()->sync($request->modules);
+        $user->has_modules()->sync($request->modul);
 
         // Return success response
         return response()->json(['message' => 'Modules updated successfully'], 200);

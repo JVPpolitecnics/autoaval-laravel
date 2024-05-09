@@ -16,7 +16,7 @@
                 <div class="card" v-for="modul in alumne.has_modules">
                     <div class="card-header">
                         {{ modul.codi }}
-                        <button type="button" class="btn btn-danger btn-sm" @click="deleteModul(id)">Desinscriu</button>
+                        <button type="button" class="btn btn-danger btn-sm" @click="deleteModul(modul.id)">Desinscriu</button>
                     </div>
                     <div class="card-body">
                         <blockquote class="blockquote mb-0">
@@ -79,11 +79,12 @@ export default {
 
 
         deleteModul(id) {
+            const me = this;
             const requestBody = {
-                modul
+                actiu: 0
             };
 
-            axios.put('api/modul/updateAlumneModuls/alumneId/'+id, requestBody)
+            axios.put('api/modul/updateAlumneModuls/alumneId/'+me.user.id+'/modul/'+ id, requestBody)
                 .then(response => {
                     console.log(response.data.message); // Log success message
                     // Handle success response

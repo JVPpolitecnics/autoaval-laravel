@@ -35,11 +35,11 @@ class ModulControllerApi extends Controller
             
             $actiu = $request->input('actiu');
     
-            $usuari->has_criteris()->sync([$modulId => ['actiu' => $actiu]], false);
+            $usuari->has_modules()->sync([$modulId => ['actiu' => $actiu]], false);
     
             $response = response()->json(['message' => 'Success updating criteria']);
         } catch (\Throwable $th) {
-            $response = response()->json(['error' => 'Error updating evaluation criteria'], 500);
+            $response = response()->json(['error' => 'Error updating evaluation criteria'. $th->getMessage()], 500);
         }
         return $response;
     }

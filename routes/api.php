@@ -30,7 +30,7 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('criteri/alumnesAndCriteris', [CriteriAvaluacioController::class, 'showAlumnesWithCriteris']);
     Route::get('criteri/loggedAlumneAndCriter/alumneId/{idAlumne}', [CriteriAvaluacioController::class, 'showLoggedUserWithCriteris']);
 
-    Route::put('modul/updateAlumneModuls/alumneId/{id}/modul{modulId}', [ModulControllerApi::class, 'updateAlumneModules']);
+    Route::put('modul/updateAlumneModuls/alumneId/{id}/modul/{modulId}', [ModulControllerApi::class, 'updateAlumneModules']);
     
     Route::put('criteri/updateAlumnesCriteris/user/{idUsuari}/criteri/{criteriId}', [CriteriAvaluacioController::class, 'updateAlumneCriteri']);
     Route::apiResource('criteri', CriteriAvaluacioController::class);

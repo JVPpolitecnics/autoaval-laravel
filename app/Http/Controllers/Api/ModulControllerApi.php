@@ -27,29 +27,23 @@ class ModulControllerApi extends Controller
         }
         return $response;
     }
+    public function updateAlumneModules(Request $request, $idUsuari, $modulId)
+    {
+        try {
+            $usuari = Usuari::findOrFail($idUsuari);
     
-    public function updateAlumneModules(Request $request, $id)
-{
-    try {
-        // Find the user
-        $user = Usuari::findOrFail($id);
-        
-        // Validate request data
-        $request->validate([
-            'modules' => 'required|array',
-            'modules.*' => 'exists:modules,id',
-        ]);
-
-        // Sync user's modules
-        $user->has_modules()->sync($request->modul);
-
-        // Return success response
-        return response()->json(['message' => 'Modules updated successfully'], 200);
-    } catch (\Throwable $th) {
-        // Return error response
-        return response()->json(['error' => 'Error updating modules: ' . $th->getMessage()], 500);
+            
+            $actiu = $request->input('actiu');
+    
+            $usuari->has_criteris()->sync([$modulId => ['actiu' => $actiu]], false);
+    
+            $response = response()->json(['message' => 'Success updating criteria']);
+        } catch (\Throwable $th) {
+            $response = response()->json(['error' => 'Error updating evaluation criteria'], 500);
+        }
+        return $response;
     }
-}
+    
     /**
      * Store a newly created resource in storage.
      */

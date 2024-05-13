@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Resources\ModulResource;
 use App\Models\Modul;
 use App\Models\Usuari;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UsuariResource;
+use Illuminate\Support\Facades\Response;
 
 class ModulControllerApi extends Controller
 {
@@ -17,10 +19,12 @@ class ModulControllerApi extends Controller
     {
         try {
             $usuari = Usuari::where('tipus_usuaris_id', 3)
-                        ->with(['has_modules' => function ($query) {
-                            $query->wherePivot('actiu', 1);
-                        }])
-                        ->get(); 
+                ->with([
+                    'has_modules' => function ($query) {
+                        $query->wherePivot('actiu', 1);
+                    }
+                ])
+                ->get();
             $response = UsuariResource::collection($usuari);
         } catch (\Throwable $th) {
             $response = response()->json(['error' => 'Error showing criteria and students: ' . $th->getMessage()], 500);
@@ -31,25 +35,55 @@ class ModulControllerApi extends Controller
     {
         try {
             $usuari = Usuari::findOrFail($idUsuari);
-    
-            
+
+
             $actiu = $request->input('actiu');
-    
-            $usuari->has_modules()->sync([$modulId => ['actiu' => $actiu]], false);
-    
+            $existingModule = $usuari->has_modules()->where('moduls_id', $modulId)->first();
+            if ($existingModule) {
+                $usuari->has_modules()->sync([$modulId => ['actiu' => $actiu]], false);
+            } else {
+                $usuari->has_modules()->attach($modulId, ['actiu' => $actiu]);
+            }
             $response = response()->json(['message' => 'Success updating criteria']);
         } catch (\Throwable $th) {
-            $response = response()->json(['error' => 'Error updating evaluation criteria'. $th->getMessage()], 500);
+            $response = response()->json(['error' => 'Error updating evaluation criteria' . $th->getMessage()], 500);
         }
         return $response;
     }
+
+    public function getAllModuls(Request $request)
+    {
+        try {
+            $modul = Modul::all();
+            $response = ModulResource::collection($modul);
+        } catch (\Throwable $th) {
+            $response = response()->json(['error' => 'Error al mostrar los usuarios: ' . $th->getMessage()], 500);
+        }
+        return $response;
+
+    }
+
+    public function addModulToUser($idUsuari, $idModul){
+        try {
+            $usuari = Usuari::findOrFail($idUsuari);
     
+            
+            $actiu = 1;
+    
+            $usuari->has_modules()->sync([$idModul => ['actiu' => $actiu]], false);
+    
+            $response = response()->json(['message' => 'Success updating user moduls']);
+        } catch (\Throwable $th) {
+            $response = response()->json(['error' => 'Error updating evaluation user moduls'], 500);
+        }
+        return $response;
+    }
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        //
+     
     }
 
     /**

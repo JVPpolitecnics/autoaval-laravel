@@ -1,6 +1,11 @@
 <template>
     <h1>Inscrirure els alumnes a moduls</h1>
-
+    <div v-if="showMessage == 'success'" class="alert alert-success" role="alert">
+    {{ text }}
+  </div>
+  <div v-if="showMessage == 'failure'" class="alert alert-danger" role="alert">
+    {{ text }}
+  </div>
     <div class="d-flex justify-content-center">
         <div v-if="!alumnesAndModuls || loading" class="spinner-grow" role="status">
             <span class="visually-hidden">Loading...</span>
@@ -17,7 +22,7 @@
             </select>
             <div v-if="selectedModul && selectedAlumne">
                 <h1>{{ selectedModul }}  :: {{ selectedAlumne  }}</h1>
-                <button class="btn btn-primary btn-sm" @cilck="updateModul(selectedModul, selectedAlumne, false)">Inscriu</button>
+                <button class="btn btn-primary btn-sm" @click="createModul()">Inscriu</button>
             </div>
             
         </div>
@@ -73,6 +78,27 @@ export default {
         this.getAllModuls();
     },
     methods: {
+        createModul(){
+        console.log("in");
+        const me = this;
+        axios.post('api/allModuls/addModulUser/user/'+me.selectedAlumne+'/modul/'+me.selectedModul)
+                .then(response => {
+
+                   console.log("success adding modul to user", response);
+                   window.location.reload().then(response => {
+
+
+
+
+
+});
+
+                })
+                .catch(error => {
+
+                    console.error('Error fetching logged-in user:', error);
+                });
+    },
         getAllModuls() {
             axios.get('api/allModuls')
                 .then(response => {
@@ -136,6 +162,8 @@ export default {
                     console.log(response.data.message); // Log success message
                     // Handle success response
                     console.log("update");
+                    me.showMessage = "success";
+                    me.text = "Modul eliminat"
                     window.location.reload().then(response => {
 
 

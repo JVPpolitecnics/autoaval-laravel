@@ -37,4 +37,5 @@ Route::put('criteri/updateAlumnesCriteris/user/{idUsuari}/criteri/{criteriId}', 
 Route::apiResource('criteri', CriteriAvaluacioController::class);
 Route::apiResource('modul', ModulControllerApi::class);
 Route::get('/allModuls', [ModulControllerApi::class, 'getAllModuls']);
+Route::post('/allModuls/addModulUser/user/{idUser}/modul/{idModul}', [ModulControllerApi::class, 'addModulToUser']);
 

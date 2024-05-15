@@ -72,9 +72,9 @@ class ModulControllerApi extends Controller
     
             $usuari->has_modules()->sync([$idModul => ['actiu' => $actiu]], false);
     
-            $response = response()->json(['message' => 'Success updating user moduls']);
+            $response = response()->json(['Success updating user moduls']);
         } catch (\Throwable $th) {
-            $response = response()->json(['error' => 'Error updating evaluation user moduls'], 500);
+            $response = response()->json(['Error updating evaluation user moduls']);
         }
         return $response;
     }

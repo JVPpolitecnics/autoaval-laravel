@@ -20,8 +20,14 @@ class UsuariController extends Controller
         $user = Usuari::where('nom_usuari', $username)->first();
         if ($user != null && Hash::check($contrasenya, $user->contrasenya)) {
             Auth::login($user);
-
-            $response = redirect('/usuari');
+            if(Auth::user()->tipus_usuaris_id == 1){
+                $response = redirect('/modulVue');
+            } else if(Auth::user()->tipus_usuaris_id == 2){
+                $response = redirect('/modulVue');
+            }else if(Auth::user()->tipus_usuaris_id == 3){
+                $response = redirect('/alumnesCriteris');
+            }
+            
 
             return $response;
 
@@ -36,6 +42,7 @@ class UsuariController extends Controller
 
         }
     }
+
     /**
      * Display a listing of the resource.
      */

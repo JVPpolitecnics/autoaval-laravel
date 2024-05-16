@@ -49,7 +49,7 @@ class UsuariController extends Controller
     public function index()
     {
         //
-        $usuaris = Usuari::with('tipus')->paginate(10);
+        $usuaris = Usuari::where('actiu', 1)->with('tipus')->paginate(10);
         return view('usuari', compact('usuaris'));
     }
 
@@ -103,9 +103,11 @@ class UsuariController extends Controller
      */
     public function update(Request $request, Usuari $usuari)
     {
-        //
+        $usuari->update(['actiu' => 0]);
+    
+        // Optionally, you can redirect the user after updating.
+        return redirect()->route('usuari.index')->with('success', 'Usuari updated successfully');
     }
-
 
    
     /**

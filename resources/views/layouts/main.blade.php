@@ -27,7 +27,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#">Link</a>
                     </li>
-                    <li class="nav-item dropdown">
+                    <li  @if(Auth::user()->tipus_usuaris_id ==1) class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
                             Dades mestres
@@ -46,7 +46,8 @@
                             <li><a class="dropdown-item" href="#">Criteris avaluació</a></li>
                         </ul>
                     </li>
-                    <li class="nav-item dropdown">
+                    @endif
+                    <li @if(Auth::user()->tipus_usuaris_id ==2) class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
                             Professors
@@ -61,7 +62,8 @@
                             <li><a class="dropdown-item" href="#">Autoavaluació alumnes</a></li>
                         </ul>
                     </li>
-                    <li class="nav-item dropdown">
+                    @endif
+                    <li @if(Auth::user()->tipus_usuaris_id ==3) class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
                             Alumnes
@@ -70,6 +72,7 @@
                             <li><a class="dropdown-item" href="#">Autoavaluació</a></li>
                         </ul>
                     </li>
+                    @endif
                 </ul>
             </div>
         </div>

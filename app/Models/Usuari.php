@@ -15,6 +15,15 @@ class Usuari extends Authenticable
     protected $table = 'usuaris';
     public $timestamps = false;
     protected $primaryKey = 'id';
+    protected $fillable = [
+        'nom_usuari',
+        'contrasenya',
+        'correu',
+        'nom',
+        'cognom',
+        'actiu', // Add 'actiu' to the fillable attributes
+        'tipus_usuaris_id'
+    ];
     public function tipus()
     {
         return $this->belongsTo(TipusUsuari::class, 'tipus_usuaris_id');

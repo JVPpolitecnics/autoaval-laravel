@@ -44,6 +44,9 @@ Route::middleware(['CheckAlumne'])->group(function () {
     });
 });
 
+Route::get('/visualitza', function () {
+    return view('visualitzaNotes');
+});
 
 Route::post('auth', [App\Http\Controllers\UsuariController::class, 'authenticate']);
 Route::get('logout', [App\Http\Controllers\UsuariController::class, 'logout'])->name('logout');

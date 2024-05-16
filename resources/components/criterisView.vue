@@ -30,9 +30,10 @@
           <div class="card-body">
             <h5 class="card-title"> {{ criteri.descripcio }}</h5>
             <div v-for="elementCriteri in alumnesAndCriteris.data.has_criteris">
-            <h6 v-if="criteri.id == elementCriteri.id" :class="classNota(elementCriteri.pivot.nota)">NOTA: {{ elementCriteri.pivot.nota }}</h6> 
-          </div>
-            <a href="#" class="btn btn-primary" @click="showParticularCriteriAndEnableEdit(criteri.id)">Autoavalua't</a>
+              <h6 v-if="criteri.id == elementCriteri.id" :class="classNota(elementCriteri.pivot.nota)">NOTA: {{
+                elementCriteri.pivot.nota }}</h6>
+            </div>
+            <a v-if="!propId" href="#" class="btn btn-primary" @click="showParticularCriteriAndEnableEdit(criteri.id)">Autoavalua't</a>
           </div>
 
 
@@ -92,6 +93,7 @@
 import axios from 'axios'; // Import axios
 
 export default {
+  name: 'visualitza',
   data() {
     return {
       alumnesAndCriteris: null,
@@ -104,6 +106,10 @@ export default {
       loading: null,
       showCriterisWithId: null,
     }
+  },
+
+  props: {
+    propId: Number,
   },
 
   created() {
@@ -184,13 +190,19 @@ export default {
     },
     fetchUsersAndCriteria() {
       const me = this;
+      let aluID;
       axios.get('api/user/LogedIn')
         .then(response => {
 
           this.user = response.data;
           console.log(this.user);
-
-          axios.get('api/criteri/loggedAlumneAndCriter/alumneId/' + me.user.id).then(response => {
+          if (this.propId) {
+aluID = this.propId;
+          }else{
+            aluID =  me.user.id;
+          }
+          
+          axios.get('api/criteri/loggedAlumneAndCriter/alumneId/' + aluID).then(response => {
             this.alumnesAndCriteris = response.data;
             console.log(this.alumnesAndCriteris);
           })

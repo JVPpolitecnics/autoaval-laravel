@@ -10,6 +10,8 @@ import modul from '../components/inscripcioModulsView.vue'
  // Added: Popper.js dependency for popover support in Bootstrap
 import '@popperjs/core';
 import { createApp } from 'vue';    
+import VisualitzaNotes from '../components/visualitzaNotes.vue';
 
 createApp(criterisView).mount('#alumnesCriteris');
 createApp(modul).mount('#modul');
+createApp(VisualitzaNotes).mount('#visualitza');

@@ -42,7 +42,10 @@ class UsuariController extends Controller
 
         }
     }
-
+    public function logout(){
+        Auth::logout();
+        return redirect('/');
+    }
     /**
      * Display a listing of the resource.
      */

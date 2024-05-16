@@ -93,12 +93,18 @@
                 </svg>
             </div>
             <div class="row-6">
+               
                 @if (Auth::check())
                 <p>{{ Auth::user()->nom }}</p>
                 <!-- Access other user data as needed -->
             @else
                 <p>Guest</p>
             @endif
+            <form action="{{ route('logout') }}" method="GET">
+                @csrf
+                <button type="submit">Log out</button>
+            </form>
+            
             </div>
         </div>
 

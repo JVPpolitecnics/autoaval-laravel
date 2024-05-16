@@ -46,7 +46,7 @@ Route::middleware(['CheckAlumne'])->group(function () {
 
 
 Route::post('auth', [App\Http\Controllers\UsuariController::class, 'authenticate']);
-
+Route::get('logout', [App\Http\Controllers\UsuariController::class, 'logout'])->name('logout');
 Route::resource('cicles', CicleController::class);
 Route::resource('tipusUsuari', TipusUsuariControlller::class);
 Route::resource('usuari', UsuariController::class);

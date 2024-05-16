@@ -21,7 +21,7 @@ class UsuariController extends Controller
         if ($user != null && Hash::check($contrasenya, $user->contrasenya)) {
             Auth::login($user);
             if(Auth::user()->tipus_usuaris_id == 1){
-                $response = redirect('/modulVue');
+                $response = redirect('/usuari');
             } else if(Auth::user()->tipus_usuaris_id == 2){
                 $response = redirect('/modulVue');
             }else if(Auth::user()->tipus_usuaris_id == 3){

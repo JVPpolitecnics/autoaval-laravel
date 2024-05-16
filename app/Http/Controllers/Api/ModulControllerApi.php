@@ -19,6 +19,7 @@ class ModulControllerApi extends Controller
     {
         try {
             $usuari = Usuari::where('tipus_usuaris_id', 3)
+                ->where('actiu', 1)
                 ->with([
                     'has_modules' => function ($query) {
                         $query->wherePivot('actiu', 1);
@@ -63,15 +64,16 @@ class ModulControllerApi extends Controller
 
     }
 
-    public function addModulToUser($idUsuari, $idModul){
+    public function addModulToUser($idUsuari, $idModul)
+    {
         try {
             $usuari = Usuari::findOrFail($idUsuari);
-    
-            
+
+
             $actiu = 1;
-    
+
             $usuari->has_modules()->sync([$idModul => ['actiu' => $actiu]], false);
-    
+
             $response = response()->json(['Success updating user moduls']);
         } catch (\Throwable $th) {
             $response = response()->json(['Error updating evaluation user moduls']);
@@ -83,7 +85,7 @@ class ModulControllerApi extends Controller
      */
     public function store(Request $request)
     {
-     
+
     }
 
     /**

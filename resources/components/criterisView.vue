@@ -12,38 +12,78 @@
     </div>
   </div>
 
-  <div class="card" v-if="alumnesAndCriteris && !filterAndStetToEditableWithId && !loading"
-    v-for="criteri in alumnesAndCriteris.data.has_criteris" :key="criteri.id">
-    <h5 class="card-header">Criteri {{ criteri.id }}</h5>
-    <div class="card-body">
-      <h5 class="card-title"> {{ criteri.descripcio }}</h5>
-      <h6 :class="classNota(criteri.pivot.nota)">NOTA: {{ criteri.pivot.nota }}</h6>
-      <a href="#" class="btn btn-primary" @click="showParticularCriteriAndEnableEdit(criteri.id)">Autoavalua't</a>
-    </div>
-  </div>
-
-  <div class="card" v-if="alumnesAndCriteris && filterAndStetToEditableWithId"
-    v-for="criteri in alumnesAndCriteris.data.has_criteris" :key="criteri.id">
-    <div v-if="filterAndStetToEditableWithId == criteri.id">
-      <h5 class="card-header">Criteri {{ criteri.id }}</h5>
+  <div class="card" v-if="alumnesAndCriteris && !filterAndStetToEditableWithId && !loading && !showCriteris"
+    v-for="modul in alumnesAndCriteris.data.has_modules" :key="modul.id">
+    <div v-if="!showCriterisWithId">
+      <h5 class="card-header">Modul {{ modul.id }}</h5>
       <div class="card-body">
-        <h5 class="card-title"> {{ criteri.descripcio }}</h5>
-        <h6 v-if="!updatedNota" :class="classNota(criteri.pivot.nota)">NOTA: {{ criteri.pivot.nota }}</h6>
-        <h6 v-if="updatedNota" :class="classNota(updatedNota)">NOTA: {{ updatedNota }}</h6>
-        <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-          <div v-if="criteri.has_many_rubrica" v-for="(rubrica, index) in criteri.has_many_rubrica">
-            <div v-on:mouseover="updateNotaVisually(index + 1)">
-              <button type="button" @click="updateNotaApi(index + 1)" :class="classButtonNota(index + 1)" data-bs-toggle="tooltip" data-bs-placement="bottom">{{
-                index + 1 }}</button>
-                <p>{{ rubrica.descripcio }}</p>
+        <h5 class="card-title"> {{ modul.nom }}</h5>
+        <a href="#" class="btn btn-primary" @click="showModulsCriteris(modul.id)">Visualitza</a>
+      </div>
+    </div>
+    <div v-if="showCriterisWithId">
 
-            </div>
-      
+
+      <div v-for="resultat in modul.resultat_aprenentatge">
+        <div v-for="criteri in resultat.criteris_avaluacio">
+          <h5 class="card-header">Criteri {{ criteri.id }}</h5>
+          <div class="card-body">
+            <h5 class="card-title"> {{ criteri.descripcio }}</h5>
+            <div v-for="elementCriteri in alumnesAndCriteris.data.has_criteris">
+            <h6 v-if="criteri.id == elementCriteri.id" :class="classNota(elementCriteri.pivot.nota)">NOTA: {{ elementCriteri.pivot.nota }}</h6> 
+          </div>
+            <a href="#" class="btn btn-primary" @click="showParticularCriteriAndEnableEdit(criteri.id)">Autoavalua't</a>
           </div>
 
+
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div v-if="filterAndStetToEditableWithId">
+    <div v-for="modul in alumnesAndCriteris.data.has_modules" :key="modul.id">
+      <div v-for="resultat in modul.resultat_aprenentatge">
+        <div v-for="criteri in resultat.criteris_avaluacio">
+          <div class="card" v-if="filterAndStetToEditableWithId == criteri.id">
+
+            <h5 class="card-header">Criteri {{ criteri.id }}</h5>
+            <div class="card-body">
+              <h5 class="card-title"> {{ criteri.descripcio }}</h5>
+              <!-- <h6 v-if="!updatedNota" :class="classNota(criteri.pivot.nota)">NOTA: {{ criteri.pivot.nota }}</h6>
+              <h6 v-if="updatedNota" :class="classNota(updatedNota)">NOTA: {{ updatedNota }}</h6> -->
+              <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                <div v-if="criteri.has_many_rubrica" v-for="(rubrica, index) in criteri.has_many_rubrica">
+                  <div v-on:mouseover="updateNotaVisually(index + 1)">
+                    <button type="button" @click="updateNotaApi(index + 1)" :class="classButtonNota(index + 1)"
+                      data-bs-toggle="tooltip" data-bs-placement="bottom">{{
+                        index + 1 }}</button>
+                    <p>{{ rubrica.descripcio }}</p>
+
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
+  </div>
+
+
+
+
+
+
+  <div class="card" v-if="alumnesAndCriteris && filterAndStetToEditableWithId"
+    v-for="resultat in alumnesAndCriteris.data.has_modules.resultat_aprenentatge" :key="criteri.id">
+
   </div>
 
 </template>
@@ -59,8 +99,10 @@ export default {
       filterAndStetToEditableWithId: null,
       updatedNota: null,
       showMessage: null,
+      showCriteris: null,
       text: null,
       loading: null,
+      showCriterisWithId: null,
     }
   },
 
@@ -68,6 +110,9 @@ export default {
     this.fetchUsersAndCriteria();
   },
   methods: {
+    showModulsCriteris(id) {
+      this.showCriterisWithId = id;
+    },
     updateNotaApi(mark) {
       const me = this;
       const requestBody = {
@@ -78,21 +123,21 @@ export default {
           console.log(response.data.message); // Log success message
           // Handle success response
           me.showMessage = "success";
-            me.text = "Nota actualitzada!"
+          me.text = "Nota actualitzada!"
           window.location.reload().then(response => {
-           
+
 
             me.filterAndStetToEditableWithId = null;
-           
-          
+
+
           });
-          
+
           setTimeout(function () {
             me.showMessage = null;
           }, 6000);
 
 
-         
+
           me.loading = false;
         })
         .catch(error => {
@@ -113,6 +158,8 @@ export default {
     showParticularCriteriAndEnableEdit(criteriId) {
       this.filterAndStetToEditableWithId = criteriId;
       console.log("clicked key: " + criteriId)
+      console.log("clicked search: " + this.filterAndStetToEditableWithId)
+
     },
     classNota(nota) {
       const numericNota = parseFloat(nota);

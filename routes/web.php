@@ -24,16 +24,29 @@ Route::get('/', function () {
 
 Route::get('/index', function () {
     return view('auth.login');
+})->name('index');
+
+
+Route::middleware(['CheckProfe'])->group(function () {
+    Route::get('/modulVue', function () {
+        return view('modulVue');
+    });
 });
-Route::get('/alumnesCriteris', function () {
-    return view('alumnesCriteris');
+Route::middleware(['CheckAdmin'])->group(function () {
+    Route::get('/modulVue', function () {
+        return view('modulVue');
+    });
 });
-Route::get('/modulVue', function () {
-    return view('modulVue');
+
+Route::middleware(['CheckAlumne'])->group(function () {
+    Route::get('/alumnesCriteris', function () {
+        return view('alumnesCriteris');
+    });
 });
+
 
 Route::post('auth', [App\Http\Controllers\UsuariController::class, 'authenticate']);
-
+Route::get('logout', [App\Http\Controllers\UsuariController::class, 'logout'])->name('logout');
 Route::resource('cicles', CicleController::class);
 Route::resource('tipusUsuari', TipusUsuariControlller::class);
 Route::resource('usuari', UsuariController::class);

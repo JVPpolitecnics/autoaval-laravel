@@ -20,8 +20,14 @@ class UsuariController extends Controller
         $user = Usuari::where('nom_usuari', $username)->first();
         if ($user != null && Hash::check($contrasenya, $user->contrasenya)) {
             Auth::login($user);
-
-            $response = redirect('/usuari');
+            if(Auth::user()->tipus_usuaris_id == 1){
+                $response = redirect('/usuari');
+            } else if(Auth::user()->tipus_usuaris_id == 2){
+                $response = redirect('/modulVue');
+            }else if(Auth::user()->tipus_usuaris_id == 3){
+                $response = redirect('/alumnesCriteris');
+            }
+            
 
             return $response;
 
@@ -36,13 +42,17 @@ class UsuariController extends Controller
 
         }
     }
+    public function logout(){
+        Auth::logout();
+        return redirect('/');
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         //
-        $usuaris = Usuari::with('tipus')->paginate(10);
+        $usuaris = Usuari::where('actiu', 1)->with('tipus')->paginate(10);
         return view('usuari', compact('usuaris'));
     }
 
@@ -96,9 +106,11 @@ class UsuariController extends Controller
      */
     public function update(Request $request, Usuari $usuari)
     {
-        //
+        $usuari->update(['actiu' => 0]);
+    
+        // Optionally, you can redirect the user after updating.
+        return redirect()->route('usuari.index')->with('success', 'Usuari updated successfully');
     }
-
 
    
     /**

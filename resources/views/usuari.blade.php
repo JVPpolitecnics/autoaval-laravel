@@ -28,8 +28,14 @@
                     <td>{{ $usuari->nom }}</td>
                     <td>{{ $usuari->cognom }}</td>
                     <td>{{ $usuari->tipus->tipus }}</td>
-                    
+                    <td><form action="{{ route('usuari.update', $usuari->id) }}" method="POST">
+                        @csrf
+                        @method('PUT') <!-- Use PUT method for updating -->
+                        <input type="hidden" name="actiu" value="0"> <!-- Set the value to 0 -->
+                        <button type="submit">Eliminar</button>
+                    </form>
                     <!-- Add more table cells for other attributes if needed -->
+                </td>
                 </tr>
                 @endforeach
             </tbody>

@@ -19,7 +19,7 @@ class Modul extends Model
     function cicle(){
         return $this->belongsTo(Cicle::class, 'cicles_id');
     }
-    public function resultat_aprenentatge(): HasMany
+    function resultat_aprenentatge(): HasMany
     {
         return $this->hasMany(ResultatsAprenentatge::class, 'moduls_id');
     }
